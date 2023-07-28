@@ -1,0 +1,12 @@
+# AWS key pair private key
+mykey
+
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Ignore IP addresses output file
+ip_addresses.txt
+
+# Ignore the .terraform directory
+.terraform/
