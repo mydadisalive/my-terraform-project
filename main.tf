@@ -1,3 +1,5 @@
+# main.tf
+
 provider "aws" {
   region = "us-east-1"  # Set your desired AWS region here
 }
@@ -14,7 +16,7 @@ resource "aws_subnet" "default" {
 
 resource "aws_security_group" "instance_sg" {
   name_prefix = "instance-sg-"
-  vpc_id      = aws_vpc.default.id
+  vpc_id      = aws_vpc.default.id  # Associate the security group with the VPC
 
   # Allow SSH access from the public world
   ingress {
@@ -45,11 +47,11 @@ resource "aws_key_pair" "mykey" {
 }
 
 resource "aws_instance" "test_instance" {
-  ami                    = "ami-05548f9cecf47b442"  # Set to the Amazon Linux 2 AMI ID
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.default.id  # Use the default subnet in the default VPC
+  ami           = "ami-05548f9cecf47b442"  # Set to the Amazon Linux 2 AMI ID
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.default.id  # Use the default subnet in the default VPC
   associate_public_ip_address = true  # Request a public IP address for the instance
-  private_ip             = "10.0.1.10"  # Specify the private IP address for the instance
+  private_ip     = "10.0.1.10"  # Specify the private IP address for the instance
 
   user_data = <<-EOT
     #!/bin/bash
@@ -71,11 +73,11 @@ resource "aws_instance" "test_instance" {
 }
 
 resource "aws_instance" "prod_instance" {
-  ami                    = "ami-05548f9cecf47b442"  # Set to the Amazon Linux 2 AMI ID
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.default.id  # Use the default subnet in the default VPC
+  ami           = "ami-05548f9cecf47b442"  # Set to the Amazon Linux 2 AMI ID
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.default.id  # Use the default subnet in the default VPC
   associate_public_ip_address = true  # Request a public IP address for the instance
-  private_ip             = "10.0.1.11"  # Specify the private IP address for the instance
+  private_ip     = "10.0.1.11"  # Specify the private IP address for the instance
 
   user_data = <<-EOT
     #!/bin/bash
@@ -110,15 +112,4 @@ output "prod_instance_public_ip" {
 
 output "prod_instance_private_ip" {
   value = aws_instance.prod_instance.private_ip
-}
-
-# Write public IP addresses to a local file
-resource "local_file" "ip_addresses" {
-  filename = "ip_addresses.txt"
-  content = <<-EOT
-    Test Instance Public IP: ${aws_instance.test_instance.public_ip}
-    Test Instance Private IP: ${aws_instance.test_instance.private_ip}
-    Prod Instance Public IP: ${aws_instance.prod_instance.public_ip}
-    Prod Instance Private IP: ${aws_instance.prod_instance.private_ip}
-  EOT
 }
