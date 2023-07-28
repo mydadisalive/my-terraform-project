@@ -1,5 +1,6 @@
 # AWS key pair private key
 mykey
+mykey.pub
 
 # Terraform state files
 *.tfstate
