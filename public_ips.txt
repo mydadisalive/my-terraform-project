@@ -1,4 +1,0 @@
-Test Instance Public IP: 54.208.232.16
-Prod Instance Private IP: 10.0.1.136
-Public Subnet ID: subnet-060906c0a8d1de251
-Private Subnet ID: subnet-014c440946034203e
