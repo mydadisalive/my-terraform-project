@@ -11,3 +11,6 @@ ip_addresses.txt
 
 # Ignore the .terraform directory
 .terraform/
+
+# Terraform Lock
+.terraform.lock.hcl
